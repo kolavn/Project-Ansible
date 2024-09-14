@@ -15,4 +15,20 @@
   
   - name: create expense user  #ansible user module documentation 
     ansible.builtin.user:  #idempotentcy and error handling 
-      name: expense
+      name: 
+      
+  - name: create app directory
+    ansible.buitlin.file:    #ansible directory module
+      path: /app
+      state: directory
+  
+  - name: Download the backend code
+    ansible.buitlin.get_url: 
+      url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+      dest: /tmp/backend.zip
+
+  - name: Unzip the code
+    ansible.builtin.unarchive:
+      src: /tmp/backend.zip
+      dest: /app
+
