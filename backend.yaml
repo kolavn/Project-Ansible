@@ -15,7 +15,7 @@
   
   - name: create expense user  #ansible user module documentation 
     ansible.builtin.user:  #idempotentcy and error handling 
-      name: 
+      name: expense
       
   - name: create app directory
     ansible.buitlin.file:    #ansible directory module
