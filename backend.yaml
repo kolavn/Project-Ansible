@@ -29,6 +29,7 @@
 
   - name: Unzip the code
     ansible.builtin.unarchive:
-      src: /tmp/backend.zip
+      src: /tmp/backend.zip  #By default ansible thinks this file is in ansible server
       dest: /app
+      remote_src: yes        # this file is located in remote/node server, so yes
 
