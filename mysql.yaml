@@ -19,7 +19,7 @@
   - name: connect mysql server
     community.mysql.mysql_info:           #ansible mysql info module to connect to server
       login_user: root
-      login_password: "{{ mysql_root_password }}
+      login_password: "{{ mysql_root_password }}"
       login_host: "{{login_host}}"
     register: mysql_info
     
