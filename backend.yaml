@@ -1,6 +1,9 @@
 - name: configure backend server
   hosts: backend
   become: yes
+  vars:
+    mysql_root_password: ExpenseApp@1
+    login_host: mysql
   tasks:
   - name: disable default nodejs
     ansible.builtin.command: dnf module disable nodejs -y
@@ -32,4 +35,30 @@
       src: /tmp/backend.zip  #By default ansible thinks this file is in ansible server
       dest: /app
       remote_src: yes        # this file is located in remote/node server, so yes
+
+  - name: Install Dependencies
+    ansible.builtin.command: npm install  #Run the command where package.json is present, it is present in /app directory so change directory
+    args: 
+      chdir: /app
+
+  - name: copying backend servrice
+    ansible.builtin.copy:
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
+  
+  - name: ansible to install pymysql
+    ansible.builtin.pip:
+      name:
+      - PyMySQL
+      executable: pip3.9
+
+      
+  - name: import mysql data schema
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+      login_host: "{{ login_host }}"
+      target: /app/schema/backend.sql
+      name: all
+      state: dump
 
